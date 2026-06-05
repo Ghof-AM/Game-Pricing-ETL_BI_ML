@@ -1,0 +1,44 @@
+# ── Credentials & Environment ───────────────────────────────
+.env
+*.env
+
+# ── Python Cache ─────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.coverage
+
+# ── Data (besar, di-generate saat runtime) ───────────────────
+data/raw/*.json
+data/processed/*.csv
+data/warehouse/*.db
+data/warehouse/*.parquet
+data/warehouse/load_summary.json
+
+# ── Model & Output (di-generate saat runtime) ────────────────
+outputs/ml_model.joblib
+outputs/*.joblib
+outputs/ml_eval_summary.json
+outputs/charts/*.png
+logs/
+
+# ── Airflow ──────────────────────────────────────────────────
+airflow_home/
+airflow.db
+airflow.cfg
+
+# ── Virtual Environment ──────────────────────────────────────
+venv/
+.venv/
+env/
+
+# ── IDE ──────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+
+# ── OS ───────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
