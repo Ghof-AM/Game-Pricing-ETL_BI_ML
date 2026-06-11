@@ -1,3 +1,55 @@
+## 👥 Kontributor
+ 
+| Nama Lengkap | NIM | Peran |
+|---|---|---|
+| [Adam Noverian] | [244311033] | role |
+| [Alfiansyah Wahyu Pratama] | [244311034] | role |
+| [Ghofur Akbar Munirrulah] | [2443110] | role |
+ 
+---
+ 
+## 📋 Deskripsi Proyek
+ 
+Proyek ini membangun pipeline ETL otomatis secara end-to-end guna menganalisis pasar top-up game mobile dan memberikan **rekomendasi harga berbasis Machine Learning**. Data diekstraksi dari **28 sumber publik nyata** (seperti GamsGo, SEAGM, Business of Apps, dan Liquipedia), dibersihkan dan diproses dengan feature engineering, kemudian dimigrasikan ke database (SQLite lokal atau Aiven PostgreSQL) serta Parquet warehouse sebagai Single Source of Truth.
+ 
+Hasilnya digunakan untuk menghasilkan **Business Intelligence dashboard interaktif** dan melatih model Machine Learning (Gradient Boosting) guna memprediksi harga optimal top-up.
+
+## 💡 Manfaat Data
+ 
+**Tujuan Proyek:** Membangun pipeline data otomatis dan terstruktur yang mengintegrasikan data harga top-up, statistik pemain, kompetisi esports, dan konteks pasar, guna menghasilkan wawasan kompetitif serta model prediksi harga yang akurat.
+ 
+| Manfaat | Deskripsi |
+|---|---|
+| **Keputusan Bisnis** | Kalkulator harga interaktif — input kondisi pasar menghasilkan rekomendasi harga optimal |
+| **Strategi Penetapan Harga** | Rekomendasi berbasis data bagi publisher/platform pihak ketiga di berbagai region dan segmen pemain |
+| **Praktik Data Engineering** | Implementasi nyata arsitektur orkestrasi pipeline dengan Apache Airflow (Extract → Transform → Load) |
+ 
+---
+ 
+## 📊 Serving Analisis
+ 
+Analisis data dan visualisasi disajikan dalam bentuk **Business Intelligence (BI) dashboard interaktif berbasis HTML**, mencakup:
+ 
+- Heatmap korelasi antar fitur
+- Chart perbandingan harga per game dan region
+- Tingkat sensitivitas harga untuk insight kompetitif
+---
+ 
+## 🤖 Serving Machine Learning
+ 
+Model ML dilatih menggunakan **90 kombinasi dataset** (game × region × segmen) untuk memprediksi harga optimal (`predicted_price_per_100_usd`). Model diekspor sebagai `outputs/ml_model.joblib` dan dapat menerima parameter pasar berikut:
+ 
+| Parameter Input | Keterangan |
+|---|---|
+| `genre` | Genre game |
+| `competition_score` | Skor kompetisi esports |
+| `mau_millions` | Monthly Active Users (juta) |
+| `arpdau_usd` | Average Revenue Per Daily Active User |
+ 
+Output berupa **prediksi harga referensi dalam USD** beserta konversinya ke **IDR (Rupiah)**.
+ 
+---
+
 # 🎮 Game Price ETL Pipeline
 ### Advanced Analytics Pipeline — Rekomendasi Harga Top-Up Game Mobile
 
