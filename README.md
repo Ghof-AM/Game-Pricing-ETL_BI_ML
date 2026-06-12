@@ -10,9 +10,9 @@
 
 | Nama Lengkap | NIM | Peran |
 |---|---|---|
-| [Adam Noverian] | 244311033 | role |
-| [Alfiansyah Wahyu Pratama] | 244311034 | role |
-| [Ghofur Akbar Munirrullah] | 2443110 | role |
+| [Adam Noverian] | 244311033 | Data Engineering |
+| [Alfiansyah Wahyu Pratama] | 244311034 | Project Manajer |
+| [Ghofur Akbar Munirrullah] | 244311042 | Data Analyst |
 
 ---
 
