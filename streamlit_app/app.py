@@ -102,8 +102,9 @@ st.markdown("""
     /* Sidebar */
     [data-testid="stSidebar"] { background: #0f1629; border-right: 1px solid #1e293b; }
 
-    /* Hide streamlit branding */
-    #MainMenu, footer, header { visibility: hidden; }
+    /* Hide only the footer branding. Keep Streamlit's header/menu visible
+       because the Deploy action lives in the app chrome. */
+    footer { visibility: hidden; }
 
     /* Tab style */
     .stTabs [data-baseweb="tab"] { color: #64748b; }

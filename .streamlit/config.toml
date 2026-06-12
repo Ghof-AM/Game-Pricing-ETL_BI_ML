@@ -13,5 +13,8 @@ port = 8501
 [browser]
 gatherUsageStats = false
 
+[client]
+toolbarMode = "developer"
+
 [runner]
 fastReruns = true
