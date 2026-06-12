@@ -374,4 +374,4 @@ MIT License — bebas digunakan untuk keperluan akademik dan non-komersial.
 
 ---
 
-*Game Price ETL Pipeline v2.0 | Data real dari 28 sumber publik | Mei 2026*
+*Game Price ETL Pipeline v2.0 | Data real dari 28 sumber publik*
