@@ -23,7 +23,13 @@ from sklearn.linear_model import Ridge
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.model_selection import KFold, cross_val_score, train_test_split
 from sklearn.preprocessing import LabelEncoder
+from loguru import logger
+from sqlalchemy import create_engine, text
 from xgboost import XGBRegressor
+
+# Add src to path untuk import config
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from config.settings import DB_URL
 
 # ── Path setup ────────────────────────────────────────────────────────────
 ROOT = Path(__file__).resolve().parent.parent
@@ -111,19 +117,46 @@ st.markdown("""
 
 @st.cache_data
 def load_data():
-    """Muat semua dataset dari CSV — di-cache oleh Streamlit."""
+    """
+    Muat dataset dari Aiven PostgreSQL (primary) atau fallback ke CSV lokal.
+    Di-cache oleh Streamlit agar tidak reload setiap interact.
+    """
     try:
+        logger.info("Attempting to connect to configured database")
+        engine = create_engine(DB_URL)
+        
+        # Test koneksi
+        with engine.connect() as conn:
+            conn.execute(text("SELECT 1"))
+        
+        logger.info("✅ Database connection successful — loading from Aiven PostgreSQL")
+        st.info("📊 Data dimuat dari **Aiven PostgreSQL**", icon="✅")
+        
         return {
-            "game":    pd.read_csv(DATA / "dim_game.csv"),
-            "pricing": pd.read_csv(DATA / "fact_pricing.csv"),
-            "age":     pd.read_csv(DATA / "dim_age.csv"),
-            "comp":    pd.read_csv(DATA / "fact_competition.csv"),
-            "revenue": pd.read_csv(DATA / "fact_revenue_monthly.csv"),
-            "ml":      pd.read_csv(DATA / "ml_features.csv"),
+            "game":    pd.read_sql("SELECT * FROM dim_game", engine),
+            "pricing": pd.read_sql("SELECT * FROM fact_pricing", engine),
+            "age":     pd.read_sql("SELECT * FROM dim_age", engine),
+            "comp":    pd.read_sql("SELECT * FROM fact_competition", engine),
+            "revenue": pd.read_sql("SELECT * FROM fact_revenue_monthly", engine),
+            "ml":      pd.read_sql("SELECT * FROM ml_features", engine),
         }
-    except FileNotFoundError as e:
-        st.error(f"❌ Data tidak ditemukan: {e}\n\nJalankan `python run_pipeline.py` terlebih dahulu.")
-        st.stop()
+    
+    except Exception as exc:
+        logger.warning("Database unavailable ({}), falling back to local CSV", type(exc).__name__)
+        st.warning(f"⚠️  Aiven DB gagal — menggunakan **CSV lokal** (mungkin data tidak ter-sync)", icon="⚠️")
+        
+        try:
+            return {
+                "game":    pd.read_csv(DATA / "dim_game.csv"),
+                "pricing": pd.read_csv(DATA / "fact_pricing.csv"),
+                "age":     pd.read_csv(DATA / "dim_age.csv"),
+                "comp":    pd.read_csv(DATA / "fact_competition.csv"),
+                "revenue": pd.read_csv(DATA / "fact_revenue_monthly.csv"),
+                "ml":      pd.read_csv(DATA / "ml_features.csv"),
+            }
+        except FileNotFoundError as e:
+            st.error(f"❌ Data tidak ditemukan: {e}\n\nJalankan `python run_pipeline.py` terlebih dahulu.")
+            st.stop()
 
 
 # Warna per game
