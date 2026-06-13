@@ -3,7 +3,7 @@
 # ============================================================
 # Hanya library yang diperlukan untuk menjalankan Streamlit app.
 # Tidak termasuk: apache-airflow, beautifulsoup4, fake-useragent,
-# tenacity, lxml (hanya untuk ETL pipeline, bukan dashboard).
+# tenacity, lxml (hanya untuk ETL pipeline, bukan dashboard)
 
 # ── Data Processing ──────────────────────────────────────────
 pandas>=2.0.0
